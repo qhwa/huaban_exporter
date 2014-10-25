@@ -22,10 +22,12 @@ module HbExporter
 
     def export path: ''
       file_path = File.join(path, export_file_name)
-      return true if File.exist?(file_path)
+      return true if File.size?(file_path)
+
+      #puts "save #{image_url} to #{file_path}"
 
       File.open(file_path, 'wb') do |file|
-        file.write HTTParty.get(image_url).body
+        file.write_nonblock (HTTParty.get(image_url))
         true
       end
     end

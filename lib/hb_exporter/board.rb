@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'thread'
 require 'ruby-progressbar'
 require 'hb_exporter/pin'
 
@@ -55,13 +56,26 @@ module HbExporter
 
     def export_pins
       board_path = prepare_export_path
+      counter = pins.size
+
+      thread_count = 5
+
+      puts title.green
       progress_bar.reset
-      pins.each do |pin|
-        pin.export path: board_path
-        progress_bar.increment
+
+      pins.partition { rand thread_count }.each do |pins|
+        Thread.new {
+          pins.each do |pin|
+            pin.export path: board_path
+            progress_bar.increment
+            counter -= 1
+          end
+        }
+      end
+
+      while counter > 0
       end
       progress_bar.finish
-      true
     end
 
 
@@ -100,10 +114,7 @@ module HbExporter
 
       def progress_bar
         @progress_bar ||= ProgressBar.create(
-          :format         => "%t - %c / %C %b#{"ᗧ".green}%i %p%% %t",
-          :title          => "downloading #{id}",
-          :progress_mark  => ' ',
-          :remainder_mark => '･'.cyan,
+          :format         => "%t - %c / %C %b>%i %p%% %t",
           :total          => pins.size
         )
       end
