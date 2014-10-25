@@ -1,9 +1,9 @@
-require 'hb_exporter/recursively_fetch'
+require 'hb_exporter/helper/recursively_fetch'
 
 module HbExporter
   class User
 
-    include RecursivelyFetch
+    include Helper::RecursivelyFetch
 
 
     attr_accessor :name

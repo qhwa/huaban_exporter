@@ -2,12 +2,13 @@ require 'fileutils'
 require 'thread'
 require 'ruby-progressbar'
 require 'hb_exporter/pin'
+require 'hb_exporter/helper/recursively_fetch'
 
 module HbExporter
 
   class Board
 
-    include RecursivelyFetch
+    include Helper::RecursivelyFetch
 
     attr_accessor :id, :title, :desc
 
