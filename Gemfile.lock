@@ -1,0 +1,18 @@
+GEM
+  remote: https://ruby.taobao.org/
+  specs:
+    colored (1.2)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
+    json (1.8.1)
+    multi_xml (0.5.5)
+    ruby-progressbar (1.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  colored
+  httparty
+  ruby-progressbar
