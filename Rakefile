@@ -5,9 +5,18 @@ require 'logger'
 
 desc 'list boards'
 task :boards  do
-  HbExporter::User.new('pigeonfenwick').list_boards
+  require_env(:name) do |name|
+    HbExporter::User.new(name).list_boards
+  end
 end
 
+
+desc 'export boards'
+task :export_boards => [:board] do
+  require_env(:name) do |name|
+    HbExporter::User.new(name).boards.each &:export_pins
+  end
+end
 
 desc 'list pins of a board'
 task :pins do
@@ -19,15 +28,15 @@ end
 
 desc 'export a board to local files'
 task :export_board do
-  require_board_id do |id|
+  require_env(:board_id) do |id|
     HbExporter::Board.load(id).export_pins
   end
 end
 
 
-def require_board_id
-  ENV['board_id'].tap do |id|
-    fail_with "usage: board_id=BOARD_ID rake pins" unless id
+def require_env name
+  ENV[name.to_s].tap do |id|
+    fail_with "usage: #{name}=#{name.to_s.upcase} rake" unless id
     yield id
   end
 end
