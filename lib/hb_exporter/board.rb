@@ -61,7 +61,7 @@ module HbExporter
       board_path = prepare_export_path
       counter = pins.size
 
-      puts "downloading :".cyan << title
+      puts "downloading ".cyan << title
       progress_bar.reset
 
       pin_grps = pins.group_by.with_index { |_, i| i % THREAD_COUNT }.values.each do |pins|
