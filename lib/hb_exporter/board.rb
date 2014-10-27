@@ -59,12 +59,10 @@ module HbExporter
       board_path = prepare_export_path
       counter = pins.size
 
-      thread_count = 5
-
-      puts title.green
+      puts "downloading :".cyan << title
       progress_bar.reset
 
-      pins.partition { rand thread_count }.each do |pins|
+      pin_grps = pins.group_by.with_index { |_, i| i % THREAD_COUNT }.values.each do |pins|
         Thread.new {
           pins.each do |pin|
             pin.export path: board_path
@@ -78,6 +76,8 @@ module HbExporter
       end
       progress_bar.finish
     end
+
+    THREAD_COUNT = 10
 
 
     private
