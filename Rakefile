@@ -20,7 +20,7 @@ end
 
 desc 'list pins of a board'
 task :pins do
-  require_board_id do |id|
+  require_env(:board_id) do |id|
     HbExporter::Board.new(id).list_pins
   end
 end
