@@ -10,7 +10,7 @@ module HbExporter
 
     include Helper::RecursivelyFetch
 
-    attr_accessor :id, :title, :desc
+    attr_accessor :id, :title, :desc, :pins_count
 
 
     def self.load(id)
@@ -19,9 +19,10 @@ module HbExporter
 
 
     def initialize(id, opt={})
-      @id = id
-      @title    = opt[:title]
-      @desc     = opt[:desc]
+      @id         = id
+      @title      = opt[:title]
+      @desc       = opt[:desc]
+      @pins_count = opt[:pins_count]
     end
 
 
@@ -30,8 +31,9 @@ module HbExporter
         headers: { 'X-Requested-With' => 'XMLHttpRequest' }
       }
       HTTParty.get(api_path, opts)['board'].tap do |data|
-        @title = data['title']
-        @desc  = data['description']
+        @title      = data['title']
+        @desc       = data['description']
+        @pins_count = data['pin_count']
       end
     end
 

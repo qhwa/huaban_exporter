@@ -14,8 +14,10 @@ module HbExporter
 
 
     def list_boards
+      id_max_len = boards.map(&:id).max.to_s.size
+      count_max_len = boards.map(&:pins_count).max.to_s.size
       boards.each do |b|
-        puts "- #{b.id.to_s.rjust(20).cyan} #{b.title.to_s.bold} - #{b.desc}"
+        puts "- #{b.id.to_s.rjust(id_max_len).cyan} #{b.pins_count.to_s.ljust(count_max_len).cyan} #{b.title.to_s.bold} - #{b.desc}"
       end
     end
 
@@ -27,7 +29,7 @@ module HbExporter
 
     def boards
       @boards ||= fetch_boards.map do |data|
-        Board.new(data['board_id'], title: data['title'], desc: data['description'])
+        Board.new(data['board_id'], title: data['title'], desc: data['description'], pins_count: data['pin_count'])
       end
     end
 
