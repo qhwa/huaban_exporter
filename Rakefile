@@ -13,7 +13,7 @@ end
 
 desc 'export boards'
 task :export_boards => [:boards] do
-  require_env(:name) do |name|
+  require_env(:user) do |name|
     HbExporter::User.new(name).boards.each &:export_pins
   end
 end
