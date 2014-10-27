@@ -3,7 +3,7 @@ $: << File.expand_path('../lib', __FILE__)
 require 'hb_exporter'
 require 'logger'
 
-desc 'list boards'
+desc '列出一个用户的所有画板 (user=用户名 rake boards)'
 task :boards  do
   require_env(:user) do |name|
     HbExporter::User.new(name).list_boards
@@ -11,14 +11,14 @@ task :boards  do
 end
 
 
-desc 'export boards'
+desc '导出用户所有的画板图片到本地 (user=用户名 rake export_boards)'
 task :export_boards => [:boards] do
   require_env(:user) do |name|
     HbExporter::User.new(name).boards.each &:export_pins
   end
 end
 
-desc 'list pins of a board'
+desc '列出一个画板所有的采集 (board_id=画板id rake pins)'
 task :pins do
   require_env(:board_id) do |id|
     HbExporter::Board.new(id).list_pins
@@ -26,7 +26,7 @@ task :pins do
 end
 
 
-desc 'export a board to local files'
+desc '导出一个画板的所有图片到本地 (board_id=画板id  rake export_board)'
 task :export_board do
   require_env(:board_id) do |id|
     HbExporter::Board.load(id).export_pins
