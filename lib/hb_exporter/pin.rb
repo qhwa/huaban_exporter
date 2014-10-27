@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module HbExporter
   class Pin
 
@@ -24,12 +26,12 @@ module HbExporter
       file_path = File.join(path, export_file_name)
       return true if File.size?(file_path)
 
-      #puts "save #{image_url} to #{file_path}"
-
-      File.open(file_path, 'wb') do |file|
-        file.write_nonblock (HTTParty.get(image_url))
-        true
+      Tempfile.create(export_file_name) do |tmpfile|
+        tmpfile << HTTParty.get(image_url)
+        tmpfile.flush
+        FileUtils.cp tmpfile, file_path
       end
+      true
     end
 
 
