@@ -5,7 +5,7 @@ require 'logger'
 
 desc 'list boards'
 task :boards  do
-  require_env(:name) do |name|
+  require_env(:user) do |name|
     HbExporter::User.new(name).list_boards
   end
 end
