@@ -14,19 +14,19 @@ command :list do |c|
   c.desc '列出一个用户的所有画板'
   c.command :boards  do |boards|
     boards.desc '用户名'
-    boards.flag [:user, 'from-user', 'of']
+    boards.flag [:user, 'of-user', 'of']
 
     boards.action do |global, opt, args|
-      HbExporter::User.new(opt[:user]).list_boards
+      HbExporter::User.new(opt[:of]).list_boards
     end
   end
 
   c.desc '列出一个画板中的所有采集'
   c.command :pins do |pins|
     pins.desc '画板id'
-    pins.flag [:board, 'from-board', 'of']
+    pins.flag [:board, 'of-board', 'of']
     pins.action do |global, opt, args|
-      HbExporter::Board.new(opt[:board]).list_pins
+      HbExporter::Board.new(opt[:of]).list_pins
     end
   end
 end
@@ -41,7 +41,7 @@ command :export do |c|
     boards.flag [:user, 'from-user', 'of']
 
     boards.action do |global, opt, args|
-      HbExporter::User.new(opt[:user]).boards.each &:export_pins
+      HbExporter::User.new(opt[:of]).boards.each &:export_pins
     end
   end
 
@@ -51,7 +51,7 @@ command :export do |c|
     pins.desc '画板id'
     pins.flag [:board, 'from-board', 'of']
     pins.action do |global, opt, args|
-      HbExporter::Board.load(opt[:board]).export_pins
+      HbExporter::Board.load(opt[:of]).export_pins
     end
   end
 
