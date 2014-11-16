@@ -14,10 +14,17 @@ module HbExporter
 
 
     def list_boards
-      id_max_len = boards.map(&:id).max.to_s.size
-      count_max_len = boards.map(&:pins_count).max.to_s.size
+      id_max_len    = [2, boards.map(&:id).max.to_s.size].max
+      count_max_len = [5, boards.map(&:pins_count).max.to_s.size].max
+
+      puts [
+        "id".rjust(id_max_len),
+        "count".ljust(count_max_len),
+        "title"
+      ].join(" ")
+
       boards.each do |b|
-        puts "- #{b.id.to_s.rjust(id_max_len).cyan} #{b.pins_count.to_s.ljust(count_max_len).cyan} #{b.title.to_s.bold} - #{b.desc}"
+        puts "#{b.id.to_s.rjust(id_max_len).cyan} #{b.pins_count.to_s.ljust(count_max_len).cyan} #{b.title.to_s.bold} - #{b.desc}"
       end
     end
 

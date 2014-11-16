@@ -44,6 +44,11 @@ module HbExporter
 
 
     def list_pins
+      puts [
+        "key".rjust(60),
+        "image url"
+      ].join(" ")
+
       pins.each do |pin|
         puts "#{pin.key.to_s.rjust(60).cyan} #{pin.image_url}"
       end
