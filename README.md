@@ -11,22 +11,26 @@ gem install hb_exporter
 
 ## 用法
 
-### 列出一个用户的所有画板
-~~~sh
-huaban list boards --of <用户名>
-~~~
+* 列出一个用户的所有画板
 
-### 列出一个画板所有的采集 (board_id=画板id rake pins)
-~~~sh
-huaban list pins --of <board_id>
-~~~
+    ~~~sh
+    huaban list boards --of <用户名>
+    ~~~
 
-### 导出所有画板的所有图片到本地
-~~~sh
-huaban export boards --of <用户名>
-~~~
+* 列出一个画板所有的采集
 
-### 导出一个画板的所有图片到本地
-~~~sh
-huaban export pins --of <board_id>
-~~~
+    ~~~sh
+    huaban list pins --of <board_id>
+    ~~~
+
+* 导出所有画板的所有图片到本地
+
+    ~~~sh
+    huaban export boards --of <用户名>
+    ~~~
+
+* 导出一个画板的所有图片到本地
+
+    ~~~sh
+    huaban export pins --of <board_id>
+    ~~~
