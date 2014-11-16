@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'hb_exporter'
+
+include GLI::App
+
+program_desc '从花瓣(huaban.com)导出图片'
+version HbExporter::VERSION
+
+
+desc '查看画板信息'
+command :list do |c|
+
+  c.desc '列出一个用户的所有画板'
+  c.command :boards  do |boards|
+    boards.desc '用户名'
+    boards.flag [:user, 'from-user', 'of']
+
+    boards.action do |global, opt, args|
+      HbExporter::User.new(opt[:user]).list_boards
+    end
+  end
+
+  c.desc '列出一个画板中的所有采集'
+  c.command :pins do |pins|
+    pins.desc '画板id'
+    pins.flag [:board, 'from-board', 'of']
+    pins.action do |global, opt, args|
+      HbExporter::Board.new(opt[:board]).list_pins
+    end
+  end
+end
+
+
+desc '导出采集'
+command :export do |c|
+
+  c.desc '导出一个用户所有的采集到本地，以画板名称为目录'
+  c.command :boards  do |boards|
+    boards.desc '用户名'
+    boards.flag [:user, 'from-user', 'of']
+
+    boards.action do |global, opt, args|
+      HbExporter::User.new(opt[:user]).boards.each &:export_pins
+    end
+  end
+
+
+  c.desc '导出出一个画板中的所有采集, 以画板名称为目录'
+  c.command :pins do |pins|
+    pins.desc '画板id'
+    pins.flag [:board, 'from-board', 'of']
+    pins.action do |global, opt, args|
+      HbExporter::Board.load(opt[:board]).export_pins
+    end
+  end
+
+end
+
+on_error do |err|
+  if debugging?
+    $stderr.puts err.message
+    $stderr.puts err.backtrace.join( "\n" )
+  else
+    next if GLI::CustomExit === err
+    $stderr.puts err.message
+  end
+end
+
+def debugging?
+  defined? Bundler
+end
+
+exit run(ARGV)
