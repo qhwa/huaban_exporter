@@ -14,6 +14,8 @@ module HbExporter
 
 
     def list_boards
+      return if boards.empty?
+
       id_max_len    = [2, boards.map(&:id).max.to_s.size].max
       count_max_len = [5, boards.map(&:pins_count).max.to_s.size].max
 
@@ -45,6 +47,8 @@ module HbExporter
 
       def fetch_boards
         recursively_fetch(api_path, []) do |res, ret|
+          return [] if res['err']
+
           boards = res['user']['boards']
           if boards.nil? or boards.empty?
             nil

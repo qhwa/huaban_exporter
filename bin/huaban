@@ -14,7 +14,7 @@ command :list do |c|
   c.desc '列出一个用户的所有画板'
   c.command :boards  do |boards|
     boards.desc '用户名'
-    boards.flag [:user, 'of-user', 'of']
+    boards.flag [:user, 'of-user', 'of'], requred: true
 
     boards.action do |global, opt, args|
       HbExporter::User.new(opt[:of]).list_boards
@@ -24,7 +24,7 @@ command :list do |c|
   c.desc '列出一个画板中的所有采集'
   c.command :pins do |pins|
     pins.desc '画板id'
-    pins.flag [:board, 'of-board', 'of']
+    pins.flag [:board, 'of-board', 'of'], requred: true
     pins.action do |global, opt, args|
       HbExporter::Board.new(opt[:of]).list_pins
     end
@@ -38,7 +38,7 @@ command :export do |c|
   c.desc '导出一个用户所有的采集到本地，以画板名称为目录'
   c.command :boards  do |boards|
     boards.desc '用户名'
-    boards.flag [:user, 'from-user', 'of']
+    boards.flag [:user, 'from-user', 'of'], requred: true
 
     boards.action do |global, opt, args|
       HbExporter::User.new(opt[:of]).boards.each &:export_pins
@@ -49,7 +49,7 @@ command :export do |c|
   c.desc '导出出一个画板中的所有采集, 以画板名称为目录'
   c.command :pins do |pins|
     pins.desc '画板id'
-    pins.flag [:board, 'from-board', 'of']
+    pins.flag [:board, 'from-board', 'of'], requred: true
     pins.action do |global, opt, args|
       HbExporter::Board.load(opt[:of]).export_pins
     end

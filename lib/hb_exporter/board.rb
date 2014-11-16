@@ -44,6 +44,8 @@ module HbExporter
 
 
     def list_pins
+      return if pins.empty?
+
       puts [
         "key".rjust(60),
         "image url"
@@ -92,6 +94,8 @@ module HbExporter
 
       def fetch_pins
         recursively_fetch api_path, [] do |res|
+          return [] if res['err']
+
           pins = res['board']['pins']
           if pins.nil? or pins.empty?
             nil
