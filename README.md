@@ -11,6 +11,10 @@ gem install hb_exporter
 
 ## 用法
 
+~~~sh
+huaban --help
+~~~
+
 * 列出一个用户的所有画板
 
     ~~~sh
