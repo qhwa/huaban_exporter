@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hb_exporter (0.1.0)
+    hb_exporter (0.1.1)
       colored (~> 1.2)
       gli (~> 2.12.2)
       httparty (~> 0.13.3)
